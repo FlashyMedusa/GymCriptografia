@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gimnasio.controller.RegistroEntrenadorController">
+    <VBox spacing="10.0">
+        <Label text="Registro de Entrenador" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <TextField fx:id="nombreField" promptText="Nombre Completo" />
+        <TextField fx:id="idUsuarioField" promptText="ID de Usuario" />
+        <TextField fx:id="horarioField" promptText="Horario Asignado" />
+        <Button fx:id="guardarBtn" text="Guardar Entrenador" onAction="#handleGuardarEntrenador"/>
+    </VBox>
+   <padding>
+     <Insets top="20" right="20" bottom="20" left="20" />
+   </padding>
+</AnchorPane>

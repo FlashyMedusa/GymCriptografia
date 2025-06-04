@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gimnasio.controller.CorteCajaController">
+    <VBox spacing="10.0">
+        <Label text="Corte de Caja" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <Label text="Ventas del Día:"/>
+        <ListView fx:id="ventasListView" prefHeight="200.0" />
+        <Label text="Pagos del Día:"/>
+        <ListView fx:id="pagosListView" prefHeight="200.0" />
+        <Button fx:id="generarReporteBtn" text="Generar Reporte" onAction="#handleGenerarReporte"/>
+        <Label fx:id="totalVentasLabel" text="Total de Ventas: $0.00"/>
+        <Label fx:id="totalPagosLabel" text="Total de Pagos: $0.00"/>
+        <Label fx:id="diferenciaLabel" text="Diferencia: $0.00"/>
+    </VBox>
+   <padding>
+     <Insets top="20" right="20" bottom="20" left="20" />
+   </padding>
+</AnchorPane>

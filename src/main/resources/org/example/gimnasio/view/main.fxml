@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gimnasio.controller.MainController">
+   <padding>
+     <Insets top="20" right="20" bottom="20" left="20" />
+   </padding>
+    <left>
+        <VBox spacing="10.0">
+            <Button fx:id="btnRegistroCliente" text="Registrar Cliente" maxWidth="Infinity" onAction="#handleButtonAction"/>
+            <Button fx:id="btnRegistroEntrenador" text="Registrar Entrenador" maxWidth="Infinity" onAction="#handleButtonAction"/>
+            <Button fx:id="btnAccesoHuella" text="Acceso por Huella" maxWidth="Infinity" onAction="#handleButtonAction"/>
+            <Button fx:id="btnVentas" text="Ventas" maxWidth="Infinity" onAction="#handleButtonAction"/>
+            <Button fx:id="btnPagos" text="Pagos en Efectivo" maxWidth="Infinity" onAction="#handleButtonAction"/>
+            <Button fx:id="btnCorte" text="Corte de Caja" maxWidth="Infinity" onAction="#handleButtonAction"/>
+        </VBox>
+    </left>
+    <center>
+        <StackPane fx:id="mainContent" />
+    </center>
+</BorderPane>
+

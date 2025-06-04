@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gimnasio.controller.PagosController">
+    <VBox spacing="10.0">
+        <Label text="Registro de Pagos" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <TextField fx:id="idClienteField" promptText="ID de Cliente" />
+        <TextField fx:id="montoField" promptText="Monto" />
+        <DatePicker fx:id="fechaPagoField" promptText="Fecha de Pago" />
+        <Button fx:id="guardarBtn" text="Registrar Pago" onAction="#handleRegistrarPago"/>
+   <padding>
+     <Insets top="20" right="20" bottom="20" left="20" />
+   </padding>
+    </VBox>
+</AnchorPane>

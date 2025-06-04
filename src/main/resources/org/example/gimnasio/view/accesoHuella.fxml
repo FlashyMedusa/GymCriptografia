@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gimnasio.controller.AccesoHuellaController">
+    <VBox spacing="10.0">
+        <Label text="Acceso con Huella Digital" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <Button fx:id="escaneoHuellaBtn" text="Escanear Huella" onAction="#handleEscanearHuella"/>
+        <Label fx:id="resultadoAccesoLabel" text="Por favor, escanee su huella."/>
+   <padding>
+     <Insets top="20" right="20" bottom="20" left="20" />
+   </padding>
+    </VBox>
+</AnchorPane>
