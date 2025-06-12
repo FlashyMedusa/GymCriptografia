@@ -4,15 +4,9 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.util.Base64;
 import javax.crypto.Mac;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature;
 
 public class SecurityUtils {
 
@@ -131,5 +125,20 @@ public class SecurityUtils {
     public static boolean validateIntegrityHMAC(String data, String storedHmac, SecretKey key) throws Exception {
         String calculatedHmac = calculateHMAC(data, key);
         return calculatedHmac.equals(storedHmac);  // Compara el HMAC calculado con el almacenado
+    }
+
+    public static PublicKey base64ToPublicKey(String publicKeyBase64) {
+        byte[] publicKeyBytes = Base64.getDecoder().decode(publicKeyBase64);
+        KeyFactory keyFactory = null;
+        try {
+            keyFactory = KeyFactory.getInstance("EC");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        PublicKey publicKey = null;
+        try {} catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return publicKey;
     }
 }

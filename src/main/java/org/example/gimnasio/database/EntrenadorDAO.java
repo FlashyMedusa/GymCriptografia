@@ -54,4 +54,19 @@ public class EntrenadorDAO {
         // Lógica para recuperar la clave privada desde un almacén seguro o un sistema de almacenamiento seguro
         return null;  // Retornar la clave privada de manera segura
     }
+
+    public static void createEntrenador(String nombre, String idUsuario, String horario, PublicKey publicKey) {
+        try (Connection conn = GimnasioDB.connect()) {
+            String insertEntrenador = "INSERT INTO entrenadores (nombre, id_usuario, horario, public_key) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(insertEntrenador)) {
+                pstmt.setString(1, nombre);
+                pstmt.setString(2, idUsuario);
+                pstmt.setString(3, horario);
+                pstmt.setString(4, SecurityUtils.publicKeyToBase64(publicKey));
+                pstmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            System.out.println("Error al crear entrenador: " + e.getMessage());
+        }
+    }
 }
