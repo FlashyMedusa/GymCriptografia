@@ -4,6 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import org.example.gimnasio.database.VentaDAO;
+import org.example.gimnasio.security.SecurityUtils;
+
+import java.security.KeyPair;
+import java.security.PrivateKey;
 
 public class VentasController {
 
@@ -24,8 +28,16 @@ public class VentasController {
             String metodoPago = metodoPagoField.getText();
             String fechaVenta = fechaVentaField.getValue().toString();
 
-            // Registrar la venta en la base de datos
-            VentaDAO.registerVenta(idCliente, producto, monto, metodoPago, fechaVenta);
+            // Generar el par de claves ECDSA (en un entorno real, las claves se deben generar previamente)
+            KeyPair ecdsaKeyPair = SecurityUtils.generateECDSAKeyPair();  // Genera el par de claves
+            PrivateKey privateKey = ecdsaKeyPair.getPrivate();  // Obtener la clave privada
+
+            // Firmar los datos de la venta (producto y monto) utilizando la clave privada
+            String dataToSign = producto + monto;
+            String firmaDigital = SecurityUtils.signECDSA(dataToSign, privateKey);  // Firmar los datos con la clave privada
+
+            // Registrar la venta en la base de datos, incluyendo la firma digital
+            VentaDAO.registerVenta(idCliente, producto, monto, metodoPago, fechaVenta, firmaDigital);
 
             // Confirmación al usuario
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

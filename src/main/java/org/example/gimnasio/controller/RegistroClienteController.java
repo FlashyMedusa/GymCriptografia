@@ -9,6 +9,7 @@ import org.example.gimnasio.security.SecurityUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import javax.crypto.SecretKey;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.util.Base64;
@@ -29,6 +30,7 @@ public class RegistroClienteController {
     @FXML
     public void handleGuardarCliente(ActionEvent event) {
         try {
+            // Obtener los datos del cliente
             String nombre = nombreField.getText();
             String domicilio = domicilioField.getText();
             String telefono = telefonoField.getText();
@@ -38,11 +40,17 @@ public class RegistroClienteController {
             String fechaPago = fechaPagoField.getValue().toString();
             String tarjeta = tarjetaField.getText();  // Obtener tarjeta
 
-            // Cifrar la tarjeta
-            String tarjetaCifrada = SecurityUtils.encryptAES(tarjeta);
+            //Generar la clave AES-256
+            SecretKey aesKey = SecurityUtils.generateAES256Key();
 
-            // Convertir foto en base64 si es necesario
-            File foto = new File("path_to_image");  // Cambiar el path
+            // Cifrar los datos utilizando AES-256
+            String domicilioCifrado = SecurityUtils.encryptAES(domicilio, aesKey);
+            String telefonoCifrado = SecurityUtils.encryptAES(telefono, aesKey);
+            String emailCifrado = SecurityUtils.encryptAES(email, aesKey);
+            String tarjetaCifrada = SecurityUtils.encryptAES(tarjeta, aesKey); // Cifrar la tarjeta
+
+            // Procesar la imagen de la fotografía (si es necesario)
+            File foto = new File("path_to_image");  // Cambiar el path a la imagen real
             BufferedImage bufferedImage = ImageIO.read(foto);
 
             // Convertir BufferedImage a byte[]
@@ -50,11 +58,16 @@ public class RegistroClienteController {
             ImageIO.write(bufferedImage, "jpg", baos); // Asegúrate de usar el formato correcto (jpg, png, etc.)
             byte[] fotoBytes = baos.toByteArray();  // Obtener byte[] de la imagen
 
-            // Convertir a Base64 si es necesario
+            // Convertir la foto a Base64 si es necesario
             String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
+            String fotoCifrada = SecurityUtils.encryptAES(fotoBase64, aesKey);
 
-            // Insertar cliente en la base de datos
-            ClienteDAO.createCliente(nombre, domicilio, telefono, email, idUsuario, fechaInscripcion, fechaPago, tarjetaCifrada, fotoBytes, fotoBytes);
+            // Suponiendo que se tiene la huella digital en formato de texto o bytes, se puede hashear con SHA-256
+            String huellaDigital = "huellaCapturada";  // Esta es una suposición, reemplázalo por el dato real de la huella
+            String huellaHash = SecurityUtils.hashSHA256(huellaDigital);  // Generar el hash de la huella digital
+
+            // Insertar el cliente en la base de datos (incluyendo los datos cifrados y hash)
+            ClienteDAO.createCliente(nombre, domicilioCifrado, telefonoCifrado, emailCifrado, idUsuario, fechaInscripcion, fechaPago, tarjetaCifrada, huellaHash.getBytes(), fotoCifrada.getBytes());
 
             // Confirmación al usuario
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

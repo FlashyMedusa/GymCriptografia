@@ -42,6 +42,7 @@ public class GimnasioDB {
                     "nombre TEXT NOT NULL," +
                     "id_usuario TEXT UNIQUE NOT NULL," +
                     "horario TEXT" +
+                    "public_key"+
                     ")";
             stmt.executeUpdate(createEntrenadoresTable);
 
@@ -53,6 +54,7 @@ public class GimnasioDB {
                     "monto REAL NOT NULL," +
                     "metodo_pago TEXT," +
                     "fecha_venta TEXT," +
+                    "firma_digital TEXT," +
                     "FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)" +
                     ")";
             stmt.executeUpdate(createVentasTable);
@@ -63,6 +65,7 @@ public class GimnasioDB {
                     "id_cliente INTEGER," +
                     "monto REAL NOT NULL," +
                     "fecha_pago TEXT," +
+                    "firma_digital TEXT," +
                     "FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)" +
                     ")";
             stmt.executeUpdate(createPagosTable);

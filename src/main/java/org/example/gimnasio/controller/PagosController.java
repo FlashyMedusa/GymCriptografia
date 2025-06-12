@@ -4,6 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import org.example.gimnasio.database.PagoDAO;
+import org.example.gimnasio.security.SecurityUtils;
+
+import java.security.KeyPair;
+import java.security.PrivateKey;
 
 public class PagosController {
 
@@ -20,8 +24,16 @@ public class PagosController {
             double monto = Double.parseDouble(montoField.getText());
             String fechaPago = fechaPagoField.getValue().toString();
 
-            // Registrar el pago en la base de datos
-            PagoDAO.registerPago(idCliente, monto, fechaPago);
+            // Generar el par de claves ECDSA (en un entorno real, las claves se deben generar previamente)
+            KeyPair ecdsaKeyPair = SecurityUtils.generateECDSAKeyPair();  // Genera el par de claves
+            PrivateKey privateKey = ecdsaKeyPair.getPrivate();  // Obtener la clave privada
+
+            // Firmar los datos del pago (monto y fecha) utilizando la clave privada
+            String dataToSign = monto + fechaPago;
+            String firmaDigital = SecurityUtils.signECDSA(dataToSign, privateKey);  // Firmar los datos con la clave privada
+
+            // Registrar el pago en la base de datos, incluyendo la firma digital
+            PagoDAO.registerPago(idCliente, monto, fechaPago, firmaDigital);
 
             // Confirmación al usuario
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

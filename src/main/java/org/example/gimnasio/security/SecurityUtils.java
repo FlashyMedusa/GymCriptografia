@@ -21,28 +21,26 @@ public class SecurityUtils {
     private static final String SECRET_KEY = "my_secret_key_123"; // Esta es una clave secreta de ejemplo. Cambiar a algo más seguro.
     private static final int AES_KEY_SIZE = 256; //256 bits para mayor seguridad
 
-    // Generar una clave secreta para AES
+    // Generar clave AES-256
     public static SecretKey generateAES256Key() throws Exception {
         KeyGenerator keyGenerator = KeyGenerator.getInstance(AES);
-        keyGenerator.init(AES_KEY_SIZE); // AES-256 bits
+        keyGenerator.init(AES_KEY_SIZE); // 256 bits para AES-256
         return keyGenerator.generateKey();
     }
 
-    // Cifrar datos usando AES
-    public static String encryptAES(String data) throws Exception {
-        SecretKeySpec keySpec = new SecretKeySpec(SECRET_KEY.getBytes(), AES);
+    // Cifrado AES-256
+    public static String encryptAES(String data, SecretKey key) throws Exception {
         Cipher cipher = Cipher.getInstance(AES);
-        cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
         byte[] encrypted = cipher.doFinal(data.getBytes());
-        return Base64.getEncoder().encodeToString(encrypted); // Convertimos el byte[] a una cadena Base64
+        return Base64.getEncoder().encodeToString(encrypted); // Convertimos el byte[] a Base64
     }
 
-    // Descifrar datos usando AES
-    public static String decryptAES(String encryptedData) throws Exception {
-        SecretKeySpec keySpec = new SecretKeySpec(SECRET_KEY.getBytes(), AES);
+    // Descifrado AES-256
+    public static String decryptAES(String encryptedData, SecretKey key) throws Exception {
         Cipher cipher = Cipher.getInstance(AES);
-        cipher.init(Cipher.DECRYPT_MODE, keySpec);
-        byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedData)); // Convertimos Base64 a byte[] y luego desencriptamos
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedData)); // Descifrar el Base64
         return new String(decrypted);
     }
 
@@ -68,13 +66,19 @@ public class SecurityUtils {
         return keyPairGenerator.generateKeyPair();
     }
 
+    // Metodo para convertir PublicKey a Base64
+    public static String publicKeyToBase64(PublicKey publicKey) {
+        byte[] publicKeyBytes = publicKey.getEncoded(); // Obtener el arreglo de bytes de la clave pública
+        return Base64.getEncoder().encodeToString(publicKeyBytes);  // Convertir a Base64
+    }
+
     // Firmar datos con clave privada (ECDSA)
     public static String signECDSA(String data, PrivateKey privateKey) throws Exception {
         Signature signature = Signature.getInstance("SHA256withECDSA");
         signature.initSign(privateKey);
         signature.update(data.getBytes());
         byte[] signatureBytes = signature.sign();
-        return Base64.getEncoder().encodeToString(signatureBytes);
+        return Base64.getEncoder().encodeToString(signatureBytes);//Firma en base 64
     }
 
     // Verificar firma con clave pública (ECDSA)

@@ -22,7 +22,7 @@ public class ClienteDAO {
                 pstmt.setString(5, idUsuario);
                 pstmt.setString(6, fechaInscripcion);
                 pstmt.setString(7, fechaPago);
-                pstmt.setString(8, SecurityUtils.encryptAES(tarjeta)); // cifrado de tarjeta
+                pstmt.setString(8, tarjeta); // cifrado de tarjeta
                 pstmt.setBytes(9, huella); // Se almacenará la huella cifrada
                 pstmt.setBytes(10, fotografia); // Se almacenará la foto cifrada
 
