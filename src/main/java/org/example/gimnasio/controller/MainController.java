@@ -6,13 +6,13 @@ import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 
 public class MainController {
 
-    @FXML
-    private Button btnRegistroCliente, btnRegistroEntrenador, btnAccesoHuella, btnVentas, btnPagos, btnCorte;
-    @FXML
-    private StackPane mainContent;
+    @FXML private Button btnRegistroCliente, btnRegistroEntrenador, btnAccesoHuella,
+            btnVentas, btnPagos, btnCorte;
+    @FXML private StackPane mainContent;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -38,11 +38,20 @@ public class MainController {
                 mainContent.getChildren().setAll(root);
             }
         } catch (Exception e) {
+            mostrarError("Error al cargar la vista: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     private Parent loadFXML(String fxml) throws Exception {
         return FXMLLoader.load(getClass().getResource(fxml));
+    }
+
+    private void mostrarError(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error de Aplicación");
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }

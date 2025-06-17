@@ -5,12 +5,37 @@
 <?import javafx.geometry.Insets?>
 
 <AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gimnasio.controller.AccesoHuellaController">
-    <VBox spacing="10.0">
-        <Label text="Acceso con Huella Digital" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-        <Button fx:id="escaneoHuellaBtn" text="Escanear Huella" onAction="#handleEscanearHuella"/>
-        <Label fx:id="resultadoAccesoLabel" text="Por favor, escanee su huella."/>
-   <padding>
-     <Insets top="20" right="20" bottom="20" left="20" />
-   </padding>
+    <VBox spacing="15.0" alignment="CENTER">
+        <Label text="Acceso con Huella Digital" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <Separator prefWidth="300.0"/>
+
+        <VBox spacing="10.0" alignment="CENTER" style="-fx-background-color: #ecf0f1; -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10;">
+            <Label text="Ingrese sus credenciales:" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+            <HBox spacing="10.0" alignment="CENTER">
+                <Label text="ID Usuario:" style="-fx-font-weight: bold; -fx-pref-width: 80;"/>
+                <TextField fx:id="idUsuarioField" promptText="Ingrese su ID de usuario" prefWidth="200.0"/>
+            </HBox>
+
+            <Button fx:id="escaneoHuellaBtn" text="🔍 Escanear Huella Digital"
+                    onAction="#handleEscanearHuella"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"
+                    prefWidth="250.0"/>
+        </VBox>
+
+        <Separator prefWidth="300.0"/>
+
+        <VBox spacing="10.0" alignment="CENTER">
+            <Label text="Estado del Sistema:" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <Label fx:id="resultadoAccesoLabel"
+                   text="Listo para escanear huella digital."
+                   style="-fx-font-size: 16px; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-color: #f8f9fa; -fx-background-radius: 5;"
+                   prefWidth="400.0" alignment="CENTER"/>
+        </VBox>
+
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30" />
+        </padding>
     </VBox>
 </AnchorPane>

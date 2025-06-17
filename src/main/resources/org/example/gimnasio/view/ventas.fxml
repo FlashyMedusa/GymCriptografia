@@ -5,16 +5,78 @@
 <?import javafx.geometry.Insets?>
 
 <AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gimnasio.controller.VentasController">
-    <VBox spacing="10.0">
-        <Label text="Ventas de Productos" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-        <TextField fx:id="idClienteField" promptText="ID de Cliente" />
-        <TextField fx:id="productoField" promptText="Producto" />
-        <TextField fx:id="montoField" promptText="Monto" />
-        <TextField fx:id="metodoPagoField" promptText="Método de Pago" />
-        <DatePicker fx:id="fechaVentaField" promptText="Fecha de Venta" />
-        <Button fx:id="guardarBtn" text="Registrar Venta" onAction="#handleRegistrarVenta"/>
-    </VBox>
-   <padding>
-     <Insets top="20" right="20" bottom="20" left="20" />
-   </padding>
+    <ScrollPane fitToWidth="true" fitToHeight="true">
+        <VBox spacing="15.0">
+            <Label text="Ventas de Productos" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+            <!-- Sección de información del cliente -->
+            <VBox spacing="10.0" style="-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+                <Label text="👤 Información del Cliente" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <HBox spacing="15.0" alignment="CENTER_LEFT">
+                    <Label text="ID Cliente:" style="-fx-font-weight: bold; -fx-pref-width: 100;"/>
+                    <TextField fx:id="idClienteField" promptText="Ingrese ID del cliente" prefWidth="150.0"/>
+                    <Button text="🔍 Verificar Cliente" onAction="#handleVerificarCliente"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 5 10;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Sección de detalles de la venta -->
+            <VBox spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+                <Label text="🛒 Detalles de la Venta" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <GridPane hgap="15.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="120.0" prefWidth="120.0"/>
+                        <ColumnConstraints minWidth="200.0" prefWidth="200.0"/>
+                        <ColumnConstraints minWidth="120.0" prefWidth="120.0"/>
+                        <ColumnConstraints minWidth="200.0" prefWidth="200.0"/>
+                    </columnConstraints>
+
+                    <Label text="Producto:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="productoField" promptText="Nombre del producto" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Monto:" style="-fx-font-weight: bold;" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                    <TextField fx:id="montoField" promptText="0.00" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                    <Label text="Método de Pago:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <ComboBox fx:id="metodoPagoCombo" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Fecha de Venta:" style="-fx-font-weight: bold;" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <DatePicker fx:id="fechaVentaField" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                </GridPane>
+            </VBox>
+
+            <!-- Sección de autenticación -->
+            <VBox spacing="10.0" style="-fx-background-color: #fff3cd; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+                <Label text="🔐 Autenticación del Entrenador" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <GridPane hgap="15.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="120.0" prefWidth="120.0"/>
+                        <ColumnConstraints minWidth="200.0" prefWidth="200.0"/>
+                        <ColumnConstraints minWidth="120.0" prefWidth="120.0"/>
+                        <ColumnConstraints minWidth="200.0" prefWidth="200.0"/>
+                    </columnConstraints>
+
+                    <Label text="ID Entrenador:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="idEntrenadorField" promptText="ID del entrenador" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Contraseña:" style="-fx-font-weight: bold;" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                    <PasswordField fx:id="passwordEntrenadorField" promptText="Contraseña" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                </GridPane>
+            </VBox>
+
+            <!-- Botón de acción -->
+            <HBox spacing="15.0" alignment="CENTER">
+                <Button fx:id="guardarBtn" text="💾 Registrar Venta"
+                        onAction="#handleRegistrarVenta"
+                        style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 15 30; -fx-background-radius: 8;"/>
+            </HBox>
+
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

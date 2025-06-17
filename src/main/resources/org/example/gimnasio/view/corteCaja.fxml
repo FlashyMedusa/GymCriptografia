@@ -5,18 +5,85 @@
 <?import javafx.geometry.Insets?>
 
 <AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gimnasio.controller.CorteCajaController">
-    <VBox spacing="10.0">
-        <Label text="Corte de Caja" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-        <Label text="Ventas del Día:"/>
-        <ListView fx:id="ventasListView" prefHeight="200.0" />
-        <Label text="Pagos del Día:"/>
-        <ListView fx:id="pagosListView" prefHeight="200.0" />
-        <Button fx:id="generarReporteBtn" text="Generar Reporte" onAction="#handleGenerarReporte"/>
-        <Label fx:id="totalVentasLabel" text="Total de Ventas: $0.00"/>
-        <Label fx:id="totalPagosLabel" text="Total de Pagos: $0.00"/>
-        <Label fx:id="diferenciaLabel" text="Diferencia: $0.00"/>
-    </VBox>
-   <padding>
-     <Insets top="20" right="20" bottom="20" left="20" />
-   </padding>
+    <ScrollPane fitToWidth="true" fitToHeight="true">
+        <VBox spacing="15.0">
+            <Label text="Corte de Caja" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+            <!-- Sección de configuración -->
+            <VBox spacing="10.0" style="-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+                <Label text="Configuración del Corte" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <HBox spacing="15.0" alignment="CENTER_LEFT">
+                    <Label text="Fecha:" style="-fx-font-weight: bold; -fx-pref-width: 80;"/>
+                    <DatePicker fx:id="fechaCorteField" prefWidth="150.0"/>
+
+                    <Button fx:id="cargarDatosBtn" text="📊 Cargar Datos del Día"
+                            onAction="#handleCargarDatos"
+                            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 8 15;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Sección de datos -->
+            <HBox spacing="15.0">
+                <!-- Ventas -->
+                <VBox spacing="10.0" prefWidth="350.0">
+                    <Label text="📈 Ventas del Día" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                    <ListView fx:id="ventasListView" prefHeight="200.0"
+                              style="-fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+                    <Label fx:id="totalVentasLabel" text="Total de Ventas: $0.00"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                </VBox>
+
+                <!-- Pagos -->
+                <VBox spacing="10.0" prefWidth="350.0">
+                    <Label text="💰 Pagos del Día" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
+                    <ListView fx:id="pagosListView" prefHeight="200.0"
+                              style="-fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+                    <Label fx:id="totalPagosLabel" text="Total de Pagos: $0.00"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
+                </VBox>
+            </HBox>
+
+            <!-- Resumen -->
+            <VBox spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+                <Label text="📊 Resumen del Día" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <HBox spacing="30.0" alignment="CENTER">
+                    <Label fx:id="diferenciaLabel" text="Diferencia: $0.00"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <Label fx:id="estadoFirmasLabel" text="Datos no cargados"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Sección de autenticación -->
+            <VBox spacing="10.0" style="-fx-background-color: #fff3cd; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+                <Label text="🔐 Autenticación del Entrenador" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <HBox spacing="15.0" alignment="CENTER_LEFT">
+                    <Label text="ID Entrenador:" style="-fx-font-weight: bold; -fx-pref-width: 120;"/>
+                    <TextField fx:id="idEntrenadorField" promptText="ID del entrenador" prefWidth="150.0"/>
+
+                    <Label text="Contraseña:" style="-fx-font-weight: bold; -fx-pref-width: 100;"/>
+                    <PasswordField fx:id="passwordEntrenadorField" promptText="Contraseña" prefWidth="150.0"/>
+
+                    <Button fx:id="generarReporteBtn" text="📄 Generar Reporte Firmado"
+                            onAction="#handleGenerarReporte" disable="true"
+                            style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-padding: 8 15;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Área del reporte -->
+            <VBox spacing="10.0">
+                <Label text="📋 Reporte Generado" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <TextArea fx:id="reporteArea" prefRowCount="15" wrapText="true"
+                          style="-fx-border-color: #bdc3c7; -fx-border-radius: 5;"
+                          promptText="El reporte aparecerá aquí una vez generado..."/>
+            </VBox>
+
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

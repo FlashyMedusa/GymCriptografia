@@ -3,21 +3,103 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
 
 <AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gimnasio.controller.RegistroClienteController">
-    <VBox spacing="10.0">
-        <Label text="Registro de Cliente" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-        <TextField fx:id="nombreField" promptText="Nombre Completo" />
-        <TextField fx:id="domicilioField" promptText="Domicilio" />
-        <TextField fx:id="telefonoField" promptText="Teléfono" />
-        <TextField fx:id="emailField" promptText="Email" />
-        <TextField fx:id="idUsuarioField" promptText="ID de Usuario" />
-        <DatePicker fx:id="fechaInscripcionField" promptText="Fecha de Inscripción" />
-        <DatePicker fx:id="fechaPagoField" promptText="Fecha de Último Pago" />
-        <PasswordField fx:id="tarjetaField" promptText="Tarjeta (Cifrada)" />
-        <Button fx:id="guardarBtn" text="Guardar Cliente" onAction="#handleGuardarCliente"/>
-    </VBox>
-   <padding>
-     <Insets top="20" right="20" bottom="20" left="20" />
-   </padding>
+    <ScrollPane fitToWidth="true" fitToHeight="true">
+        <VBox spacing="15.0">
+            <Label text="Registro de Cliente" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+            <!-- Sección de información personal -->
+            <VBox spacing="10.0" style="-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+                <Label text="👤 Información Personal" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <GridPane hgap="15.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="120.0" prefWidth="120.0"/>
+                        <ColumnConstraints minWidth="200.0" prefWidth="200.0"/>
+                        <ColumnConstraints minWidth="120.0" prefWidth="120.0"/>
+                        <ColumnConstraints minWidth="200.0" prefWidth="200.0"/>
+                    </columnConstraints>
+
+                    <Label text="Nombre Completo:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="nombreField" promptText="Nombre completo del cliente" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+
+                    <Label text="ID de Usuario:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="idUsuarioField" promptText="ID único del cliente" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Email:" style="-fx-font-weight: bold;" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <TextField fx:id="emailField" promptText="correo@ejemplo.com" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+
+                    <Label text="Domicilio:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <TextField fx:id="domicilioField" promptText="Dirección completa" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="3"/>
+
+                    <Label text="Teléfono:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <TextField fx:id="telefonoField" promptText="10-15 dígitos" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                    <Label text="Tarjeta:" style="-fx-font-weight: bold;" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                    <PasswordField fx:id="tarjetaField" promptText="Número de tarjeta" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+                </GridPane>
+            </VBox>
+
+            <!-- Sección de fechas -->
+            <VBox spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+                <Label text="📅 Fechas Importantes" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <GridPane hgap="15.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="150.0" prefWidth="150.0"/>
+                        <ColumnConstraints minWidth="200.0" prefWidth="200.0"/>
+                        <ColumnConstraints minWidth="150.0" prefWidth="150.0"/>
+                        <ColumnConstraints minWidth="200.0" prefWidth="200.0"/>
+                    </columnConstraints>
+
+                    <Label text="Fecha de Inscripción:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <DatePicker fx:id="fechaInscripcionField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Fecha de Último Pago:" style="-fx-font-weight: bold;" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                    <DatePicker fx:id="fechaPagoField" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                </GridPane>
+            </VBox>
+
+            <!-- Sección de biometría y fotografía -->
+            <VBox spacing="15.0" style="-fx-background-color: #e8f5e8; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+                <Label text="🔐 Datos Biométricos y Fotografía" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <HBox spacing="30.0" alignment="CENTER">
+                    <!-- Fotografía -->
+                    <VBox spacing="10.0" alignment="CENTER">
+                        <Label text="📷 Fotografía" style="-fx-font-weight: bold;"/>
+                        <ImageView fx:id="imageView" fitHeight="120" fitWidth="120" preserveRatio="true"
+                                   style="-fx-border-color: #bdc3c7; -fx-border-width: 2; -fx-border-radius: 8;"/>
+                        <Button fx:id="subirImagenBtn" text="📁 Subir Imagen" onAction="#handleSubirImagen"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 15;"/>
+                    </VBox>
+
+                    <!-- Huella Digital -->
+                    <VBox spacing="10.0" alignment="CENTER">
+                        <Label text="👆 Huella Digital" style="-fx-font-weight: bold;"/>
+                        <VBox spacing="5.0" alignment="CENTER"
+                              style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #bdc3c7; -fx-border-width: 2; -fx-border-radius: 8;">
+                            <Label text="🔍" style="-fx-font-size: 40px;"/>
+                            <Label fx:id="estadoHuellaLabel" text="Huella no capturada" alignment="CENTER"/>
+                        </VBox>
+                        <Button fx:id="capturarHuellaBtn" text="👆 Capturar Huella" onAction="#handleCapturarHuella"
+                                style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-padding: 8 15;"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Botón de acción -->
+            <HBox spacing="15.0" alignment="CENTER">
+                <Button fx:id="guardarBtn" text="💾 Guardar Cliente"
+                        onAction="#handleGuardarCliente"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 15 40; -fx-background-radius: 8;"/>
+            </HBox>
+
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

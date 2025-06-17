@@ -9,36 +9,71 @@ import java.util.List;
 
 public class PagoDAO {
 
-    // Registrar pago con firma digital
-    public static void registerPago(int idCliente, double monto, String fechaPago, String firmaDigital) {
+    public static class PagoInfo {
+        public int id;
+        public int idCliente;
+        public double monto;
+        public String fechaPago;
+        public String tipoPago;
+        public String concepto;
+        public String firmaDigital;
+        public String idEntrenador;
+
+        public PagoInfo(int id, int idCliente, double monto, String fechaPago,
+                        String tipoPago, String concepto, String firmaDigital, String idEntrenador) {
+            this.id = id;
+            this.idCliente = idCliente;
+            this.monto = monto;
+            this.fechaPago = fechaPago;
+            this.tipoPago = tipoPago;
+            this.concepto = concepto;
+            this.firmaDigital = firmaDigital;
+            this.idEntrenador = idEntrenador;
+        }
+    }
+
+    public static void registerPago(int idCliente, double monto, String fechaPago,
+                                    String tipoPago, String concepto, String firmaDigital, String idEntrenador) throws SQLException {
         try (Connection conn = GimnasioDB.connect()) {
-            String insertPago = "INSERT INTO pagos (id_cliente, monto, fecha_pago, firma_digital) VALUES (?, ?, ?, ?)";
+            String insertPago = """
+                INSERT INTO pagos (id_cliente, monto, fecha_pago, tipo_pago, concepto, firma_digital, id_entrenador) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)""";
 
             try (PreparedStatement pstmt = conn.prepareStatement(insertPago)) {
                 pstmt.setInt(1, idCliente);
                 pstmt.setDouble(2, monto);
                 pstmt.setString(3, fechaPago);
-                pstmt.setString(4, firmaDigital);  // Guardamos la firma digital
-
+                pstmt.setString(4, tipoPago);
+                pstmt.setString(5, concepto);
+                pstmt.setString(6, firmaDigital);
+                pstmt.setString(7, idEntrenador);
                 pstmt.executeUpdate();
             }
-
-        } catch (SQLException e) {
-            System.out.println("Error al registrar el pago: " + e.getMessage());
         }
     }
 
-    // Metodo para obtener los pagos del día
-    public static List<String> getPagosDelDia() {
-        List<String> pagos = new ArrayList<>();
+    public static List<PagoInfo> getPagosDelDia(String fecha) {
+        List<PagoInfo> pagos = new ArrayList<>();
         try (Connection conn = GimnasioDB.connect()) {
-            String query = "SELECT monto, firma_digital FROM pagos WHERE fecha_pago = CURRENT_DATE";  // Suponiendo que usamos la fecha de la base de datos
+            String query = """
+                SELECT id_pago, id_cliente, monto, fecha_pago, tipo_pago, concepto, firma_digital, id_entrenador 
+                FROM pagos WHERE fecha_pago = ?""";
+
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, fecha);
                 ResultSet rs = pstmt.executeQuery();
+
                 while (rs.next()) {
-                    double monto = rs.getDouble("monto");
-                    String firmaDigital = rs.getString("firma_digital");
-                    pagos.add("Pago: $" + monto + " | Firma Digital: " + firmaDigital);
+                    pagos.add(new PagoInfo(
+                            rs.getInt("id_pago"),
+                            rs.getInt("id_cliente"),
+                            rs.getDouble("monto"),
+                            rs.getString("fecha_pago"),
+                            rs.getString("tipo_pago"),
+                            rs.getString("concepto"),
+                            rs.getString("firma_digital"),
+                            rs.getString("id_entrenador")
+                    ));
                 }
             }
         } catch (SQLException e) {
@@ -47,27 +82,42 @@ public class PagoDAO {
         return pagos;
     }
 
-    // Método para obtener la firma de un pago
+    public static List<String> getPagosDelDiaSimple(String fecha) {
+        List<String> pagos = new ArrayList<>();
+        try (Connection conn = GimnasioDB.connect()) {
+            String query = "SELECT monto, tipo_pago FROM pagos WHERE fecha_pago = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, fecha);
+                ResultSet rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    double monto = rs.getDouble("monto");
+                    String tipoPago = rs.getString("tipo_pago");
+                    pagos.add(tipoPago + ": $" + monto);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener los pagos del día: " + e.getMessage());
+        }
+        return pagos;
+    }
+
     public static String getFirmaPago(int idPago) {
-        String firmaPago = null;
         try (Connection conn = GimnasioDB.connect()) {
             String query = "SELECT firma_digital FROM pagos WHERE id_pago = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setInt(1, idPago);
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
-                    firmaPago = rs.getString("firma_digital");  // Obtener la firma digital del pago
+                    return rs.getString("firma_digital");
                 }
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener la firma del pago: " + e.getMessage());
         }
-        return firmaPago;
+        return null;
     }
 
-    // Método para obtener los datos de un pago (monto y fecha) para la firma
     public static String getDatosPago(int idPago) {
-        String datosPago = null;
         try (Connection conn = GimnasioDB.connect()) {
             String query = "SELECT monto, fecha_pago FROM pagos WHERE id_pago = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -76,12 +126,29 @@ public class PagoDAO {
                 if (rs.next()) {
                     double monto = rs.getDouble("monto");
                     String fechaPago = rs.getString("fecha_pago");
-                    datosPago = monto + ":" + fechaPago;  // Concatenar los datos importantes para la firma
+                    return monto + ":" + fechaPago;
                 }
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener los datos del pago: " + e.getMessage());
         }
-        return datosPago;
+        return null;
+    }
+
+    public static double getTotalPagosDia(String fecha) {
+        double total = 0;
+        try (Connection conn = GimnasioDB.connect()) {
+            String query = "SELECT SUM(monto) as total FROM pagos WHERE fecha_pago = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, fecha);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    total = rs.getDouble("total");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al calcular total de pagos: " + e.getMessage());
+        }
+        return total;
     }
 }

@@ -5,14 +5,69 @@
 <?import javafx.geometry.Insets?>
 
 <AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gimnasio.controller.RegistroEntrenadorController">
-    <VBox spacing="10.0">
-        <Label text="Registro de Entrenador" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-        <TextField fx:id="nombreField" promptText="Nombre Completo" />
-        <TextField fx:id="idUsuarioField" promptText="ID de Usuario" />
-        <TextField fx:id="horarioField" promptText="Horario Asignado" />
-        <Button fx:id="guardarBtn" text="Guardar Entrenador" onAction="#handleGuardarEntrenador"/>
+    <VBox spacing="15.0">
+        <Label text="Registro de Entrenador" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <!-- Sección de información personal -->
+        <VBox spacing="10.0" style="-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+            <Label text="👤 Información Personal" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+            <GridPane hgap="15.0" vgap="10.0">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="120.0" prefWidth="120.0"/>
+                    <ColumnConstraints minWidth="250.0" prefWidth="250.0"/>
+                    <ColumnConstraints minWidth="120.0" prefWidth="120.0"/>
+                    <ColumnConstraints minWidth="250.0" prefWidth="250.0"/>
+                </columnConstraints>
+
+                <Label text="Nombre Completo:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="nombreField" promptText="Nombre completo del entrenador" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+
+                <Label text="ID de Usuario:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="idUsuarioField" promptText="ID único del entrenador" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Horario:" style="-fx-font-weight: bold;" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <TextField fx:id="horarioField" promptText="Ej: Lunes a Viernes 6AM-2PM" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+            </GridPane>
+        </VBox>
+
+        <!-- Sección de seguridad -->
+        <VBox spacing="10.0" style="-fx-background-color: #fff3cd; -fx-padding: 15; -fx-border-radius: 8; -fx-background-radius: 8;">
+            <Label text="🔐 Configuración de Seguridad" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <Label text="La contraseña será utilizada para firmar digitalmente las transacciones." style="-fx-font-size: 12px; -fx-text-fill: #856404;"/>
+
+            <GridPane hgap="15.0" vgap="10.0">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="150.0" prefWidth="150.0"/>
+                    <ColumnConstraints minWidth="200.0" prefWidth="200.0"/>
+                    <ColumnConstraints minWidth="150.0" prefWidth="150.0"/>
+                    <ColumnConstraints minWidth="200.0" prefWidth="200.0"/>
+                </columnConstraints>
+
+                <Label text="Contraseña:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <PasswordField fx:id="passwordField" promptText="Mínimo 8 caracteres" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Confirmar Contraseña:" style="-fx-font-weight: bold;" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <PasswordField fx:id="confirmPasswordField" promptText="Repetir contraseña" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+            </GridPane>
+
+            <VBox spacing="5.0" style="-fx-background-color: #d1ecf1; -fx-padding: 10; -fx-border-radius: 5; -fx-background-radius: 5;">
+                <Label text="ℹ️ Información de Seguridad:" style="-fx-font-weight: bold; -fx-text-fill: #0c5460;"/>
+                <Label text="• Se generará automáticamente un par de claves ECDSA para firmas digitales" style="-fx-font-size: 11px; -fx-text-fill: #0c5460;"/>
+                <Label text="• La clave privada se almacenará cifrada con la contraseña proporcionada" style="-fx-font-size: 11px; -fx-text-fill: #0c5460;"/>
+                <Label text="• Esta contraseña será requerida para firmar ventas, pagos y reportes" style="-fx-font-size: 11px; -fx-text-fill: #0c5460;"/>
+            </VBox>
+        </VBox>
+
+        <!-- Botón de acción -->
+        <HBox spacing="15.0" alignment="CENTER">
+            <Button fx:id="guardarBtn" text="💾 Guardar Entrenador"
+                    onAction="#handleGuardarEntrenador"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 15 40; -fx-background-radius: 8;"/>
+        </HBox>
+
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20" />
+        </padding>
     </VBox>
-   <padding>
-     <Insets top="20" right="20" bottom="20" left="20" />
-   </padding>
 </AnchorPane>
