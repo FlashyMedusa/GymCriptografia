@@ -1,3 +1,12 @@
+/**
+ * *******************************************
+ * ATENCIÓN: Este código fue escrito por Flashy Meduza
+ * Si lo usas, al menos invítame un café ☕ (o un taco 🌮, no soy exigente).
+ * Motivo del programa: "Porque el mundo necesitaba esto"
+ * Si funciona, no lo toques.
+ * Si no funciona... bueno, yo tampoco sé. 🤷‍♂️
+ * *******************************************
+ */
 package org.example.gimnasio;
 
 import javafx.application.Application;
